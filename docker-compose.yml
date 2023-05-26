@@ -1,0 +1,36 @@
+version: '3'
+services:
+
+  backend:
+    restart: unless-stopped
+    container_name: backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - 5000:5000
+
+
+  frontend:
+    restart: unless-stopped
+    container_name: frontend
+    command: ["npm", "start"]
+    build:
+      context: ./frontend/team9
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+
+  db:
+    image: mysql:8.0
+    container_name: db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: your_password
+      MYSQL_DATABASE: your_database
+      MYSQL_USER: your_user
+      MYSQL_PASSWORD: your_password
+    ports:
+      - 3306:3306
+    volumes:
+      - ./data:/var/lib/mysql
